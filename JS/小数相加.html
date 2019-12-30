@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+function judgeFloat(n, m) {
+      const binaryN = n.toString(2);
+      const binaryM = m.toString(2);
+      console.log(`${n}的二进制是    ${binaryN}`);
+      console.log(`${m}的二进制是    ${binaryM}`);
+      const MN = m + n;
+      const accuracyMN = (m * 100 + n * 100) / 100;
+      const binaryMN = MN.toString(2);
+      const accuracyBinaryMN = accuracyMN.toString(2);
+      console.log(`${n}+${m}的二进制是${binaryMN}`);
+      console.log(`${accuracyMN}的二进制是    ${accuracyBinaryMN}`);
+      console.log(`${n}+${m}的二进制再转成十进制是${to10(binaryMN)}`);
+      console.log(`${accuracyMN}的二进制是再转成十进制是${to10(accuracyBinaryMN)}`);
+      console.log(`${n}+${m}在js中计算是${(to10(binaryMN) === to10(accuracyBinaryMN)) ? '' : '不'}准确的`);
+    }
+    function to10(n) {
+      const pre = (n.split('.')[0] - 0).toString(2);
+      const arr = n.split('.')[1].split('');
+      let i = 0;
+      let result = 0;
+      while (i < arr.length) {
+        result += arr[i] * Math.pow(2, -(i + 1));
+        i++;
+      }
+      return result;
+    }
+    judgeFloat(0.1, 0.2);
+    judgeFloat(0.6, 0.7);
+
+
+</script>
+</html>
