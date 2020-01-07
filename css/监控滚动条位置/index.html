@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div style="height:500px;width:800px;background:blue">
+
+    </div>
+    <div style="height:500px;width:800px;background:red">
+
+    </div>
+    <div style="height:500px;width:800px;background:yellow">
+
+    </div>
+</body>
+<script>
+
+function getViewHeight(){  
+    return document.documentElement.clientHeight;  
+}
+
+function getScrollTop(){  
+    return document.documentElement.scrollTop;  
+}
+
+function getContentHeight(){  
+    return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);  
+}
+
+window.onscroll=function(){
+    // 浏览器可见区域高度为：
+    var viewHeight=getViewHeight(),
+    // 窗口滚动条高度
+    scrollHeight=getScrollTop(),
+    // 文档内容实际高度：
+    contentHeight=getContentHeight(),
+    // 滚动条距离底部的高度
+    scrolllBtmHeight=contentHeight-scrollHeight-viewHeight;
+   
+    console.log('浏览器可见区域高度为：'+viewHeight+' 文档内容实际高度：'+contentHeight+' 滚动条距离顶部的高度为：'+scrollHeight+' 滚动条距离底部的高度为：'+scrolllBtmHeight);
+}
+</script>
+</html>

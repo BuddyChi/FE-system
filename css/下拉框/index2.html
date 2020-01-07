@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{width:200px;height:30px;line-height: 30px;margin: 20px auto;}
+        .box span{display: block;width: 200px;line-height: 30px;border: solid 1px black;}
+        .box ul{margin: 0;padding: 0;list-style: none;overflow: auto;border: solid 1px black;border-top:none;display: none;}
+        .box ul li{padding: 0 6px;}
+        .box ul li.active{background: #35f;color: #fff;}
+    </style>
+</head>
+<body>
+    <select>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+
+    <div class="box">
+        <input class="_input" value = "北京"></input>
+        <ul>
+            <li class="active">北京</li>
+            <li>上海</li>
+            <li>广州</li>
+            <li>深圳</li>
+            <li>杭州</li>
+            <li>西安</li>
+            <li>...</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var ospan = document.querySelector(".box ._input");
+    var oul = document.querySelector(".box ul");
+    var ali = document.querySelectorAll(".box ul li");
+
+    // 6.设置默认显示项的索引
+    // K3.设置默认css的索引和内容的索引
+    var cssIndex = htmlIndex = 0;
+    // 根据默认的索引，设置默认内容
+    ospan.innerHTML = ali[htmlIndex].innerHTML;
+    // 下拉菜单的当前项
+    setActive(cssIndex);
+
+    // 2.设置下拉菜单的显示或隐藏状态：0为显示，1为隐藏
+    var i = 0;
+    // 1.绑定显示框的点击事件
+    ospan.onclick = function(eve){
+        // 5.阻止事件冒泡
+        eve.stopPropagation();
+        // 3.根据状态显示或隐藏，同时别忘记修改状态
+        if(i == 0){
+            oul.style.display = "block";
+            // 9.每次打开时根据最新索引，设置当前项
+            setActive(htmlIndex)
+            // K3-3.每次打开，需要将css索引设置为内容索引
+            cssIndex = htmlIndex;
+            i = 1;
+        }else{
+            oul.style.display = "none";
+            i = 0;
+        }
+    }
+    
+    // 4.点击空白隐藏，同时别忘记修改状态
+    document.onclick = function(){
+        oul.style.display = "none";
+        i = 0;
+    }
+
+    for(var j=0;j<ali.length;j++){
+        // 8.提前给li绑定索引，方便后面设置索引
+        ali[j].index = j;
+        
+        // 7.鼠标经过li事件
+        ali[j].onmouseover = function(){
+            // K3-1.鼠标经过时，设置的是css索引
+            cssIndex = this.index;
+            // 取消所有，显示当前
+            for(var k=0;k<ali.length;k++){
+                ali[k].className = "";
+            }
+            // 注意：this就是鼠标经过的元素
+            this.className = "active";
+        }
+        // 8.li的点击事件
+        ali[j].onclick = function(){
+            // 设置内容
+            ospan.innerHTML = this.innerHTML;
+            // K3-2.修改内容索引
+            htmlIndex = this.index;
+        }
+    }
+
+
+    // K1.绑定键盘事件
+    document.onkeydown = function(eve){
+        // K2.如果下拉菜单没有显示，不执行
+        if(i == 0) return;
+
+        if(eve.keyCode == 38){
+            // K4-1.按下上下键盘之前，先拿到鼠标最后停留的li的索引
+            htmlIndex = cssIndex;
+            // K5-1.修改内容和样式的索引
+            if(htmlIndex == 0){
+                htmlIndex = 0;
+                cssIndex = 0;
+            }else{
+                htmlIndex--;
+                cssIndex--;
+            }
+            // K6-1.修改li的当前项
+            setActive(cssIndex)
+            // K7-1.设置显示框的内容
+            ospan.innerHTML = ali[htmlIndex].innerHTML;
+        }
+        if(eve.keyCode == 40){
+            // K4-2.按下上下键盘之前，先拿到鼠标最后停留的li的索引
+            htmlIndex = cssIndex;
+            // K5-2.修改内容和样式的索引
+            if(htmlIndex == ali.length-1){
+                htmlIndex = ali.length-1;
+                cssIndex = ali.length-1;
+            }else{
+                htmlIndex++;
+                cssIndex++;
+            }
+            // K6-2.修改li的当前项
+            setActive(cssIndex);
+            // K7-2.设置显示框的内容
+            ospan.innerHTML = ali[htmlIndex].innerHTML;
+        }
+        if(eve.keyCode == 13){
+            // K8.回车隐藏下拉菜单，同时设置状态
+            oul.style.display = "none";
+            i = 0;
+        }
+    }
+
+    // 功能1：根据索引设置当前项
+    function setActive(idx){
+        for(var k=0;k<ali.length;k++){
+            ali[k].className = "";
+        }
+        ali[idx].className = "active";
+    }
+</script>
+</html>
