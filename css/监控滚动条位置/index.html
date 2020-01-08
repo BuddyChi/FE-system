@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
     <div style="height:500px;width:800px;background:blue">
 
     </div>
-    <div style="height:500px;width:800px;background:red">
+    <div id='red' style="height:500px;width:800px;background:red;position: absolute; top:50px;left: 50px;">
+
+    </div>
+    <div style="height:500px;width:800px;background:yellow">
 
     </div>
     <div style="height:500px;width:800px;background:yellow">
@@ -18,7 +26,6 @@
     </div>
 </body>
 <script>
-
 function getViewHeight(){  
     return document.documentElement.clientHeight;  
 }
@@ -31,6 +38,17 @@ function getContentHeight(){
     return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);  
 }
 
+function getRedElementPosition(){
+    var red = document.getElementById('red');
+    console.log()
+    let postion = {
+        top:red.offsetTop,
+        left:red.offsetLeft,
+        };
+    console.log(postion);
+    return postion    
+}
+
 window.onscroll=function(){
     // 浏览器可见区域高度为：
     var viewHeight=getViewHeight(),
@@ -40,8 +58,10 @@ window.onscroll=function(){
     contentHeight=getContentHeight(),
     // 滚动条距离底部的高度
     scrolllBtmHeight=contentHeight-scrollHeight-viewHeight;
-   
+    
+    redElementPosition = getRedElementPosition();
     console.log('浏览器可见区域高度为：'+viewHeight+' 文档内容实际高度：'+contentHeight+' 滚动条距离顶部的高度为：'+scrollHeight+' 滚动条距离底部的高度为：'+scrolllBtmHeight);
+    console.log('红色区域顶部距离浏览器窗口的位置是：',redElementPosition.top-scrollHeight)
 }
 </script>
 </html>
